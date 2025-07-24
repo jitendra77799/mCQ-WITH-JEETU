@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मौर्य काल MCQ प्रश्नोत्तरी</title>
+    <style>
+        body {
+            font-family: 'Arial Unicode MS', 'Nirmala UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .question {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .options {
+            margin-left: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>मौर्य काल: बहुविकल्पीय प्रश्नोत्तरी</h1>
+    
+    <div id="quiz-container">
+        <!-- यहाँ प्रश्न डायनामिकली जोड़े जाएँगे -->
+    </div>
+    
+    <button onclick="checkAnswers()">उत्तर जांचें</button>
+    
+    <div id="results"></div>
+
+    <script>
+        // प्रश्नों का डेटा
+        const questions = [
+            {
+                question: "मौर्य साम्राज्य की स्थापना किसने की थी?",
+                options: ["अशोक", "चंद्रगुप्त मौर्य", "बिंदुसार", "समुद्रगुप्त"],
+                answer: 1
+            },
+            {
+                question: "चंद्रगुप्त मौर्य को राज्याभिषेक कहाँ हुआ था?",
+                options: ["पाटलिपुत्र", "तक्षशिला", "उज्जैन", "वैशाली"],
+                answer: 0
+            },
+            // और प्रश्न यहाँ जोड़ें...
+        ];
+
+        // पेज लोड होने पर प्रश्न डिस्प्ले करें
+        window.onload = function() {
+            const quizContainer = document.getElementById('quiz-container');
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <h3>प्रश्न ${index+1}: ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map((option, i) => `
+                            <div>
+                                <input type="radio" id="q${index}o${i}" name="q${index}" value="${i}">
+                                <label for="q${index}o${i}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                quizContainer.appendChild(questionDiv);
+            });
+        };
+
+        // उत्तर जांचने का फंक्शन
+        function checkAnswers() {
+            let score = 0;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(input[name="q${index}"]:checked);
+                
+                if(selectedOption) {
+                    if(parseInt(selectedOption.value) === q.answer) {
+                        score++;
+                        resultsDiv.innerHTML += `
+                            <p class="correct">प्रश्न ${index+1}: सही उत्तर!</p>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML += `
+                            <p class="incorrect">प्रश्न ${index+1}: गलत उत्तर! सही उत्तर है: ${q.options[q.answer]}</p>
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML += `
+                        <p class="incorrect">प्रश्न ${index+1}: कोई उत्तर नहीं चुना गया! सही उत्तर है: ${q.options[q.answer]}</p>
+                    `;
+                }
+            });
+            
+            const percentage = Math.round((score/questions.length)*100);
+            let message = '';
+            
+            if(percentage >= 80) {
+                message = 'बहुत बढ़िया! आपको मौर्य काल की उत्कृष्ट जानकारी है।';
+            } else if(percentage >= 50) {
+                message = 'अच्छा प्रयास! थोड़ा और अध्ययन करें।';
+            } else {
+                message = 'अभ्यास की आवश्यकता है। मौर्य काल के बारे में और पढ़ें।';
+            }
+            
+            resultsDiv.innerHTML += `
+                <h3>आपका स्कोर: ${score}/${questions.length} (${percentage}%)</h3>
+                <p>${message}</p>
+            `;
+            
+            // स्क्रॉल टू रिजल्ट
+            resultsDiv.scrollIntoView({behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>
